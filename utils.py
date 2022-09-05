@@ -22,11 +22,18 @@ def format_candidates(candidates: list[dict]) -> str:
 def get_all_candidates() -> list[dict]:
     return load_json()
 
-def get_candidate_by_id(pk: int) ->dict:
-    candidates = get_all_candidates
+def get_candidate_by_id(uid: int) -> dict:
+    candidates = get_all_candidates()
     for candidate in candidates:
-        if candidate["pk"] == "pk":
+        if candidate["pk"] == uid:
             return candidate
-    return "Not found"
+    return None
 
+def get_candidate_by_skill(skill: str) -> list[dict]:
+    candidates = get_all_candidates()
+    result = []
+    for candidate in candidates:
+        if skill in candidate["skills"].lower().split(", "):
+            result.append(candidate)
+    return result
 

@@ -1,3 +1,4 @@
+import picture as picture
 from flask import Flask
 from utils import *
 
@@ -10,11 +11,20 @@ def page_main():
     result: str = format_candidates(candidates)
     return result
 
-@app.route("/candidate/<int:pk>")
-def page_candidate(pk):
-    """Поиск кандидата по рк"""
-    candidate: dict = get_candidate_by_id(pk)
-    result: str = format_candidates([candidate])
+@app.route("/candidate/<int:uid>")
+def page_candidate(uid):
+    """Поиск кандидата по id"""
+    candidate: dict = get_candidate_by_id(uid)
+    result = f'<img src="{candidate["picture"]}">'
+    result += format_candidates([candidate])
+    return result
+
+@app.route("/skills/<skill>")
+def page_skills(skill):
+    """Поиск кандидата по навыку"""
+    skill_lower = skill.lower()
+    candidates: list[dict] = get_candidate_by_skill(skill_lower)
+    result = format_candidates(candidates)
     return result
 
 app.run()
